@@ -21,9 +21,12 @@
 package benchGateway
 
 import (
+	"fmt"
 	"io"
+	"io/ioutil"
 	"net"
 	"net/http"
+	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -74,6 +77,8 @@ func CreateGateway(
 	createClients CreateClientsFn,
 	regEndpoints RegisterFn,
 ) (testGateway.TestGateway, error) {
+	fmt.Fprintf(os.Stdout, "!!! BenchGateway.Create() \n\n\n")
+
 	if seedConfig == nil {
 		seedConfig = map[string]interface{}{}
 	}
@@ -91,6 +96,11 @@ func CreateGateway(
 		return nil, err
 	}
 
+	tempLogDir, err := ioutil.TempDir("", "bench-gateway-log")
+	if err != nil {
+		return nil, err
+	}
+
 	seedConfig["port"] = int64(0)
 
 	if _, ok := seedConfig["tchannel.serviceName"]; !ok {
@@ -98,7 +108,8 @@ func CreateGateway(
 	}
 	seedConfig["tchannel.processName"] = "bench-gateway"
 	seedConfig["metrics.tally.service"] = "bench-gateway"
-	seedConfig["logger.output"] = "stdout"
+	seedConfig["logger.output"] = "disk"
+	seedConfig["logger.fileName"] = filepath.Join(tempLogDir, "bench-gateway.log")
 
 	benchGateway := &BenchGateway{
 		httpClient: &http.Client{
@@ -227,6 +238,12 @@ func (gateway *BenchGateway) MakeRequest(
 
 // Close test gateway
 func (gateway *BenchGateway) Close() {
+	fmt.Fprintf(os.Stdout, "!!! BenchGateway.Close() \n\n\n")
+	lines := strings.Split(gateway.logBytes.String(), "\n")
+	for _, line := range lines {
+		testGateway.PrintJSONLine(line)
+	}
+
 	gateway.ActualGateway.Close()
 	gateway.ActualGateway.Wait()
 }

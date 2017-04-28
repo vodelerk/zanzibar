@@ -143,7 +143,7 @@ func TestMakingClientCalLWithRespHeaders(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Add("Example-Header", "Example-Value")
 			w.WriteHeader(200)
-			_, _ = w.Write([]byte("{}"))
+			_, _ = w.Write([]byte(`{"stringField":"foo"}`))
 		},
 	)
 	clients := bgateway.ActualGateway.Clients.(*clients.Clients)

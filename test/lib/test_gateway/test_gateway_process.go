@@ -139,10 +139,7 @@ func readAddrFromStdout(testGateway *ChildProcessGateway, reader *bufio.Reader) 
 		addJSONLine(testGateway, line1)
 	}
 
-	_, err = os.Stdout.WriteString(line1)
-	if err != nil {
-		return err
-	}
+	PrintJSONLine(line1)
 
 	m := realAddrRegex.FindStringSubmatch(line1)
 	if m == nil {
@@ -191,10 +188,77 @@ func (gateway *ChildProcessGateway) copyToStdout(reader *bufio.Reader) {
 			addJSONLine(gateway, line)
 		}
 
-		_, err2 := os.Stdout.WriteString(line)
-		if err2 != nil {
+		PrintJSONLine(line)
+	}
+}
+
+// Foreground colors.
+const (
+	Black Color = iota + 40
+	Red
+	Green
+	Yellow
+	Blue
+	Magenta
+	Cyan
+	White
+)
+
+var colorMap = map[string]Color{
+	"fatal": Red,
+	"error": Red,
+	"warn":  Yellow,
+	"info":  Green,
+	"debug": Blue,
+	"trace": Cyan,
+}
+
+// Color ...
+type Color uint8
+
+// Add adds the coloring to the given string.
+func (c Color) Add(s string) string {
+	return fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(c), s)
+}
+
+// PrintJSONLine is a helper to pretty-print JSON
+func PrintJSONLine(line string) {
+	if line[0] != '{' {
+		_, err := os.Stdout.WriteString(line)
+		if err != nil {
 			// TODO: betterer...
-			panic(err2)
+			panic(err)
 		}
+
+		return
+	}
+
+	var jsonInfo map[string]interface{}
+
+	err := json.Unmarshal([]byte(line), &jsonInfo)
+	if err != nil {
+		// swallow json errors
+		return
+	}
+
+	level := jsonInfo["level"].(string)
+	msg := jsonInfo["msg"].(string)
+
+	prefix := "TEST-GATEWAY " + strings.ToUpper(level) + ":"
+	prefix = colorMap[level].Add(prefix)
+
+	jsonInfo["level"] = ""
+	jsonInfo["msg"] = ""
+
+	bytes, err2 := json.Marshal(jsonInfo)
+	if err2 != nil {
+		// swallow json errors
+		return
+	}
+
+	prettyLine := prefix + " " + msg + " ~ " + string(bytes)
+	_, err3 := os.Stdout.WriteString(prettyLine + "\n")
+	if err3 != nil {
+		panic(err3)
 	}
 }
