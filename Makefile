@@ -68,13 +68,6 @@ lint: check-licence eclint-check
 	@git grep -i fixme | grep -v -e vendor -e Makefile | $(FILTER_LINT) | tee -a lint.log
 	@[ ! -s lint.log ]
 
-# .PHONY: verify_deps
-# verify_deps:
-# 	@rm -f deps.log
-# 	@echo "Verifying dependency conflicts"
-# 	@glide -q update 2>&1 | tee -a deps.log
-# 	@[ ! -s deps.log ]
-
 .PHONY: generate
 generate:
 	@go get -u github.com/jteeuwen/go-bindata/...
