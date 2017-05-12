@@ -29,6 +29,7 @@ import (
 	"github.com/uber/zanzibar/examples/example-gateway/build/endpoints/baz_tchannel"
 	"github.com/uber/zanzibar/examples/example-gateway/build/endpoints/contacts"
 	"github.com/uber/zanzibar/examples/example-gateway/build/endpoints/googlenow"
+	"github.com/uber/zanzibar/examples/example-gateway/build/endpoints/nested_structs"
 	"github.com/uber/zanzibar/examples/example-gateway/middlewares/example"
 	"github.com/uber/zanzibar/runtime/middlewares/logger"
 
@@ -50,6 +51,7 @@ type Endpoints struct {
 	ContactsSaveContactsHTTPHandler      *contacts.SaveContactsHandler
 	GooglenowAddCredentialsHTTPHandler   *googlenow.AddCredentialsHandler
 	GooglenowCheckCredentialsHTTPHandler *googlenow.CheckCredentialsHandler
+	NestedStructsFirstHTTPHandler        *nestedStructs.FirstHandler
 	BazTChannelCallTChannelHandler       zanzibar.TChannelHandler
 }
 
@@ -71,6 +73,7 @@ func CreateEndpoints(
 		ContactsSaveContactsHTTPHandler:      contacts.NewSaveContactsEndpoint(gateway),
 		GooglenowAddCredentialsHTTPHandler:   googlenow.NewAddCredentialsEndpoint(gateway),
 		GooglenowCheckCredentialsHTTPHandler: googlenow.NewCheckCredentialsEndpoint(gateway),
+		NestedStructsFirstHTTPHandler:        nestedStructs.NewFirstEndpoint(gateway),
 		BazTChannelCallTChannelHandler:       bazTchannel.NewSimpleServiceCallHandler(gateway),
 	}
 }
@@ -205,6 +208,15 @@ func Register(g *zanzibar.Gateway) {
 			"googlenow",
 			"checkCredentials",
 			endpoints.GooglenowCheckCredentialsHTTPHandler.HandleRequest,
+		),
+	)
+	g.HTTPRouter.Register(
+		"POST", "/first",
+		zanzibar.NewRouterEndpoint(
+			g,
+			"nestedStructs",
+			"first",
+			endpoints.NestedStructsFirstHTTPHandler.HandleRequest,
 		),
 	)
 	g.TChannelRouter.Register("SimpleService", "Call", endpoints.BazTChannelCallTChannelHandler)
