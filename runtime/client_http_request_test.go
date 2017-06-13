@@ -35,9 +35,12 @@ import (
 )
 
 var defaultTestOptions *testGateway.Options = &testGateway.Options{
-	KnownHTTPBackends:     []string{"bar", "contacts", "google-now"},
+	KnownHTTPBackends: []string{
+		"bar", "contacts", "google-now", "nestedStructs",
+	},
 	KnownTChannelBackends: []string{"baz"},
 }
+
 var defaultTestConfig map[string]interface{} = map[string]interface{}{
 	"clients.baz.serviceName": "baz",
 }
