@@ -6,7 +6,7 @@
 	"thriftFileSha": "{{placeholder}}",
 	"thriftMethodName": "NestedStructs::first",
 	"workflowType": "httpClient",
-	"clientName": "NestedStructs",
+	"clientID": "nestedStructs",
 	"clientMethod": "first",
 	"middlewares": [],
 	"testFixtures": [],

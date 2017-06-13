@@ -4,7 +4,6 @@
 	"config": {
 		"thriftFile": "clients/nested_structs/nested_structs.thrift",
 		"thriftFileSha": "{{placeholder}}",
-		"clientName": "NestedStructs",
 		"serviceName": "NestedStructs"
 	}
 }
