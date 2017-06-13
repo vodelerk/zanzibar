@@ -28,6 +28,7 @@ import (
 	bazClientGenerated "github.com/uber/zanzibar/examples/example-gateway/build/clients/baz"
 	contactsClientGenerated "github.com/uber/zanzibar/examples/example-gateway/build/clients/contacts"
 	googlenowClientGenerated "github.com/uber/zanzibar/examples/example-gateway/build/clients/googlenow"
+	nestedstructsClientGenerated "github.com/uber/zanzibar/examples/example-gateway/build/clients/nested_structs"
 	quuxClientStatic "github.com/uber/zanzibar/examples/example-gateway/clients/quux"
 
 	"github.com/uber/zanzibar/runtime"
@@ -36,11 +37,12 @@ import (
 // Clients datastructure that holds all the generated clients
 // This should only hold clients generate from specs
 type Clients struct {
-	Bar       *barClientGenerated.BarClient
-	Baz       *bazClientGenerated.BazClient
-	Contacts  *contactsClientGenerated.ContactsClient
-	GoogleNow *googlenowClientGenerated.GoogleNowClient
-	Quux      *quuxClientStatic.Quux
+	Bar           *barClientGenerated.BarClient
+	Baz           *bazClientGenerated.BazClient
+	Contacts      *contactsClientGenerated.ContactsClient
+	GoogleNow     *googlenowClientGenerated.GoogleNowClient
+	NestedStructs *nestedstructsClientGenerated.NestedStructsClient
+	Quux          *quuxClientStatic.Quux
 }
 
 // CreateClients will make all clients
@@ -48,10 +50,11 @@ func CreateClients(
 	gateway *zanzibar.Gateway,
 ) interface{} {
 	return &Clients{
-		Bar:       barClientGenerated.NewClient(gateway),
-		Baz:       bazClientGenerated.NewClient(gateway),
-		Contacts:  contactsClientGenerated.NewClient(gateway),
-		GoogleNow: googlenowClientGenerated.NewClient(gateway),
-		Quux:      quuxClientStatic.NewClient(gateway),
+		Bar:           barClientGenerated.NewClient(gateway),
+		Baz:           bazClientGenerated.NewClient(gateway),
+		Contacts:      contactsClientGenerated.NewClient(gateway),
+		GoogleNow:     googlenowClientGenerated.NewClient(gateway),
+		NestedStructs: nestedstructsClientGenerated.NewClient(gateway),
+		Quux:          quuxClientStatic.NewClient(gateway),
 	}
 }
