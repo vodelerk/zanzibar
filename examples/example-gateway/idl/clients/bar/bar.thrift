@@ -15,6 +15,15 @@ struct BarRequest {
     )
     2: required bool boolField (zanzibar.http.ref = "query.some-query-field")
 }
+
+struct BarRequestRecur {
+    1: required string stringField (
+        zanzibar.http.ref = "params.someParamsField"
+    )
+    2: required bool boolField (zanzibar.http.ref = "query.some-query-field")
+    3: optional BarRequestRecur extra
+}
+
 struct BarResponse {
     1: required string stringField (
         zanzibar.http.ref = "headers.some-header-field"
@@ -55,6 +64,17 @@ service Bar {
         zanzibar.http.path = "/bar-path"
         zanzibar.http.status = "200"
     )
+
+    BarResponse normalRecur (
+        1: required BarRequestRecur request
+    ) throws (
+        1: BarException barException (zanzibar.http.status = "403")
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.path = "/bar-path"
+        zanzibar.http.status = "200"
+    )
+
     BarResponse noRequest (
     ) throws (
         1: BarException barException (zanzibar.http.status = "403")
