@@ -97,11 +97,7 @@ func (c *{{$clientName}}) {{$methodName}}(
 	{{if .ReqClientHeaderGoStatements -}}
 	// TODO(jakev): populate request headers from thrift body
 	{{range $index, $line := .ReqClientHeaderGoStatements -}}
-	{{if eq $line.IsRequired true -}}
-	headers["{{$line.HeaderName}}"] = r{{$line.HeaderValue}}
-	{{else -}}
-	headers["{{$line.HeaderName}}"] = *r{{$line.HeaderValue}}
-	{{end -}}
+	{{$line}}
 	{{end -}}
 	{{end -}}
 

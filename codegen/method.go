@@ -80,7 +80,7 @@ type MethodSpec struct {
 
 	// Statements for reading request headers for clients
 	//ReqClientHeaderGoStatements []ClientHeaderInfo
-	ReqClientHeaderGoStatements []ClientHeaderInfo
+	ReqClientHeaderGoStatements []string
 
 	// ResHeaderFields is a map of header name to a golang
 	// field accessor expression used to read fields out
@@ -667,25 +667,79 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 	funcSpec *compile.FunctionSpec, packageHelper *PackageHelper,
 ) error {
 	fields := compile.FieldGroup(funcSpec.ArgsSpec)
+
+	statements := LineBuilder{}
+	var finalError error
+	var seenOptStructs = map[string]string{}
+
 	// Scan for all annotations
 	visitor := func(
 		goPrefix string, thriftPrefix string, field *compile.FieldSpec,
 	) bool {
+		realType := compile.RootTypeSpec(field.Type)
+		longFieldName := goPrefix + "." + pascalCase(field.Name)
+
+		// If the type is a struct then we cannot really do anything
+		if _, ok := realType.(*compile.StructSpec); ok {
+			// if a field is a struct then we must do a nil check
+
+			typeName, err := GoType(packageHelper, realType)
+			if err != nil {
+				finalError = err
+				return true
+			}
+
+			if field.Required {
+				statements.appendf("if r%s == nil {", longFieldName)
+				statements.appendf("\tr%s = &%s{}",
+					longFieldName, typeName,
+				)
+				statements.append("}")
+			} else {
+				seenOptStructs[longFieldName] = typeName
+			}
+			return false
+		}
+
+
 		if param, ok := field.Annotations[antHTTPRef]; ok {
 			if param[0:8] == "headers." {
 				headerName := param[8:]
 				bodyIdentifier := goPrefix + "." + pascalCase(field.Name)
-				clientHeaderInfo := ClientHeaderInfo{
-					HeaderName: headerName,
-					HeaderValue: bodyIdentifier,
-					IsRequired: field.Required,
+
+				for seenStruct, typeName := range seenOptStructs {
+						if strings.HasPrefix(longFieldName, seenStruct) {
+							statements.appendf("if r%s == nil {",
+								seenStruct,
+							)
+							statements.appendf("\tr%s = &%s{}",
+								seenStruct, typeName,
+							)
+							statements.append("}")
+						}
+					}
+				if field.Required {
+					statements.appendf("headers[%q]= r%s",
+						headerName, bodyIdentifier,
+					)
+				} else {
+					statements.appendf("headers[%q]= *r%s",
+						headerName, bodyIdentifier,
+					)
 				}
-				ms.ReqClientHeaderGoStatements = append(ms.ReqClientHeaderGoStatements, clientHeaderInfo)
+
+				//clientHeaderInfo := ClientHeaderInfo{
+				//	HeaderName: headerName,
+				//	HeaderValue: bodyIdentifier,
+				//	IsRequired: field.Required,
+				//}
+				//ms.ReqClientHeaderGoStatements = append(ms.ReqClientHeaderGoStatements, clientHeaderInfo)
 			}
 		}
 		return false
 	}
 	walkFieldGroups(fields, visitor)
+	ms.ReqClientHeaderGoStatements = statements.GetLines()
 	return nil
 }
 

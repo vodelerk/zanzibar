@@ -52,7 +52,10 @@ struct QueryParamsStruct {
 }
 
 struct QueryParamsOptsStruct {
-    1: required string name
+    1: required string name (
+        zanzibar.http.ref = "headers.query-opts-params-name"
+            go.tag = "json:\"-\""
+        )
     2: optional string userUUID
     3: optional string authUUID
     4: optional string authUUID2

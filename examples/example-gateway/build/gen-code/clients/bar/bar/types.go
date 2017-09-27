@@ -773,7 +773,7 @@ func (v *ParamsStruct) Equals(rhs *ParamsStruct) bool {
 }
 
 type QueryParamsOptsStruct struct {
-	Name      string  `json:"name,required"`
+	Name      string  `json:"-"`
 	UserUUID  *string `json:"userUUID,omitempty"`
 	AuthUUID  *string `json:"authUUID,omitempty"`
 	AuthUUID2 *string `json:"authUUID2,omitempty"`

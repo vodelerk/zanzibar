@@ -947,11 +947,7 @@ func (c *{{$clientName}}) {{$methodName}}(
 	{{if .ReqClientHeaderGoStatements -}}
 	// TODO(jakev): populate request headers from thrift body
 	{{range $index, $line := .ReqClientHeaderGoStatements -}}
-	{{if eq $line.IsRequired true -}}
-	headers["{{$line.HeaderName}}"] = r{{$line.HeaderValue}}
-	{{else -}}
-	headers["{{$line.HeaderName}}"] = *r{{$line.HeaderValue}}
-	{{end -}}
+	{{$line}}
 	{{end -}}
 	{{end -}}
 
@@ -1111,7 +1107,7 @@ func http_clientTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "http_client.tmpl", size: 6935, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "http_client.tmpl", size: 6771, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

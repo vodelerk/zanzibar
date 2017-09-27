@@ -458,8 +458,15 @@ func (c *barClient) ArgWithNestedQueryParams(
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "ArgWithNestedQueryParams", c.httpClient)
 
 	// TODO(jakev): populate request headers from thrift body
+	if r.Request == nil {
+		r.Request = &clientsBarBar.QueryParamsStruct{}
+	}
 	headers["query-params-name"] = r.Request.Name
 	headers["query-params-uuid"] = *r.Request.UserUUID
+	if r.Opt == nil {
+		r.Opt = &clientsBarBar.QueryParamsOptsStruct{}
+	}
+	headers["query-opts-params-name"] = r.Opt.Name
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithNestedQueryParams"
 
@@ -478,8 +485,6 @@ func (c *barClient) ArgWithNestedQueryParams(
 		queryValues.Set("request.authUUID2", requestAuthUUID2Query)
 	}
 	if r.Opt != nil {
-		optNameQuery := r.Opt.Name
-		queryValues.Set("opt.name", optNameQuery)
 		if r.Opt.UserUUID != nil {
 			optUserUUIDQuery := *r.Opt.UserUUID
 			queryValues.Set("opt.userUUID", optUserUUIDQuery)
@@ -814,6 +819,10 @@ func (c *barClient) Normal(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "Normal", c.httpClient)
 
+	// TODO(jakev): populate request headers from thrift body
+	if r.Request == nil {
+		r.Request = &clientsBarBar.BarRequest{}
+	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar-path"
 
@@ -876,6 +885,10 @@ func (c *barClient) NormalRecur(
 	var defaultRes *clientsBarBar.BarResponseRecur
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "NormalRecur", c.httpClient)
 
+	// TODO(jakev): populate request headers from thrift body
+	if r.Request == nil {
+		r.Request = &clientsBarBar.BarRequestRecur{}
+	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/recur"
 
@@ -937,6 +950,10 @@ func (c *barClient) TooManyArgs(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "TooManyArgs", c.httpClient)
 
+	// TODO(jakev): populate request headers from thrift body
+	if r.Request == nil {
+		r.Request = &clientsBarBar.BarRequest{}
+	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/too-many-args-path"
 
