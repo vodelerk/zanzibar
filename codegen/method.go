@@ -52,13 +52,6 @@ type HeaderFieldInfo struct {
 	IsPointer       bool
 }
 
-// ClientHeaderInfo constains header name, value and required info for client annotations
-type ClientHeaderInfo struct {
-	HeaderName string
-	HeaderValue string
-	IsRequired bool
-}
-
 // MethodSpec specifies all needed parts to generate code for a method in service.
 type MethodSpec struct {
 	Name       string
@@ -691,20 +684,17 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 			return false
 		}
 
-
 		if param, ok := field.Annotations[antHTTPRef]; ok {
 			if param[0:8] == "headers." {
 				headerName := param[8:]
 				bodyIdentifier := goPrefix + "." + pascalCase(field.Name)
 				for seenStruct, typeName := range seenOptStructs {
 					if strings.HasPrefix(longFieldName, seenStruct) {
-						statements.appendf("if r%s == nil {",
-							seenStruct,
-							)
-							statements.appendf("\tr%s = &%s{}",
-								seenStruct, typeName,
-							)
-							statements.append("}")
+						statements.appendf("if r%s == nil {", seenStruct)
+						statements.appendf("\tr%s = &%s{}",
+							seenStruct, typeName,
+						)
+						statements.append("}")
 					}
 				}
 				if field.Required {
