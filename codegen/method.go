@@ -52,6 +52,7 @@ type HeaderFieldInfo struct {
 	IsPointer       bool
 }
 
+// ClientHeaderInfo constains header name, value and required info for client annotations
 type ClientHeaderInfo struct {
 	HeaderName string
 	HeaderValue string
