@@ -721,6 +721,10 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 		return false
 	}
 	walkFieldGroups(fields, visitor)
+	if finalError != nil {
+		return finalError
+	}
+
 	ms.ReqClientHeaderGoStatements = statements.GetLines()
 	return nil
 }
