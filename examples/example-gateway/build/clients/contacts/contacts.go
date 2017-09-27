@@ -85,9 +85,6 @@ func (c *contactsClient) SaveContacts(
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "SaveContacts", c.httpClient)
 
 	// TODO(jakev): populate request headers from thrift body
-	if r.SaveContactsRequest == nil {
-		r.SaveContactsRequest = &clientsContactsContacts.SaveContactsRequest{}
-	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/" + string(r.UserUUID) + "/contacts"
 

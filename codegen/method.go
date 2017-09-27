@@ -727,13 +727,6 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 						headerName, bodyIdentifier,
 					)
 				}
-
-				//clientHeaderInfo := ClientHeaderInfo{
-				//	HeaderName: headerName,
-				//	HeaderValue: bodyIdentifier,
-				//	IsRequired: field.Required,
-				//}
-				//ms.ReqClientHeaderGoStatements = append(ms.ReqClientHeaderGoStatements, clientHeaderInfo)
 			}
 		}
 		return false
