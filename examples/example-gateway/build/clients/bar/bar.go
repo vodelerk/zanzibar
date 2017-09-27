@@ -312,7 +312,7 @@ func (c *barClient) ArgWithHeaders(
 
 	// TODO(jakev): populate request headers from thrift body
 	headers["name"] = r.Name
-	headers["x-uuid"] = r.UserUUID
+	headers["x-uuid"] = *r.UserUUID
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithHeaders"
 
@@ -459,7 +459,7 @@ func (c *barClient) ArgWithNestedQueryParams(
 
 	// TODO(jakev): populate request headers from thrift body
 	headers["query-params-name"] = r.Request.Name
-	headers["query-params-uuid"] = r.Request.UserUUID
+	headers["query-params-uuid"] = *r.Request.UserUUID
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithNestedQueryParams"
 
