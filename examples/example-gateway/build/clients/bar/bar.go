@@ -462,6 +462,9 @@ func (c *barClient) ArgWithNestedQueryParams(
 		r.Request = &clientsBarBar.QueryParamsStruct{}
 	}
 	headers["query-params-name"] = r.Request.Name
+	if r.Request == nil {
+		r.Request = &clientsBarBar.QueryParamsStruct{}
+	}
 	headers["query-params-uuid"] = *r.Request.UserUUID
 	if r.Opt == nil {
 		r.Opt = &clientsBarBar.QueryParamsOptsStruct{}
@@ -819,10 +822,6 @@ func (c *barClient) Normal(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "Normal", c.httpClient)
 
-	// TODO(jakev): populate request headers from thrift body
-	if r.Request == nil {
-		r.Request = &clientsBarBar.BarRequest{}
-	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar-path"
 
@@ -885,10 +884,6 @@ func (c *barClient) NormalRecur(
 	var defaultRes *clientsBarBar.BarResponseRecur
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "NormalRecur", c.httpClient)
 
-	// TODO(jakev): populate request headers from thrift body
-	if r.Request == nil {
-		r.Request = &clientsBarBar.BarRequestRecur{}
-	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/recur"
 
@@ -950,10 +945,6 @@ func (c *barClient) TooManyArgs(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "TooManyArgs", c.httpClient)
 
-	// TODO(jakev): populate request headers from thrift body
-	if r.Request == nil {
-		r.Request = &clientsBarBar.BarRequest{}
-	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/too-many-args-path"
 

@@ -682,22 +682,12 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 		// If the type is a struct then we cannot really do anything
 		if _, ok := realType.(*compile.StructSpec); ok {
 			// if a field is a struct then we must do a nil check
-
 			typeName, err := GoType(packageHelper, realType)
 			if err != nil {
 				finalError = err
 				return true
 			}
-
-			if field.Required {
-				statements.appendf("if r%s == nil {", longFieldName)
-				statements.appendf("\tr%s = &%s{}",
-					longFieldName, typeName,
-				)
-				statements.append("}")
-			} else {
-				seenOptStructs[longFieldName] = typeName
-			}
+			seenOptStructs[longFieldName] = typeName
 			return false
 		}
 
@@ -706,18 +696,17 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 			if param[0:8] == "headers." {
 				headerName := param[8:]
 				bodyIdentifier := goPrefix + "." + pascalCase(field.Name)
-
 				for seenStruct, typeName := range seenOptStructs {
-						if strings.HasPrefix(longFieldName, seenStruct) {
-							statements.appendf("if r%s == nil {",
-								seenStruct,
+					if strings.HasPrefix(longFieldName, seenStruct) {
+						statements.appendf("if r%s == nil {",
+							seenStruct,
 							)
 							statements.appendf("\tr%s = &%s{}",
 								seenStruct, typeName,
 							)
 							statements.append("}")
-						}
 					}
+				}
 				if field.Required {
 					statements.appendf("headers[%q]= r%s",
 						headerName, bodyIdentifier,
