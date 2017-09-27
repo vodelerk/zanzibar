@@ -52,6 +52,12 @@ type HeaderFieldInfo struct {
 	IsPointer       bool
 }
 
+type ClientHeaderInfo struct {
+	HeaderName string
+	HeaderValue string
+	IsRequired bool
+}
+
 // MethodSpec specifies all needed parts to generate code for a method in service.
 type MethodSpec struct {
 	Name       string
@@ -70,6 +76,10 @@ type MethodSpec struct {
 
 	// Statements for reading request headers
 	ReqHeaderGoStatements []string
+
+	// Statements for reading request headers for clients
+	//ReqClientHeaderGoStatements []ClientHeaderInfo
+	ReqClientHeaderGoStatements []ClientHeaderInfo
 
 	// ResHeaderFields is a map of header name to a golang
 	// field accessor expression used to read fields out
@@ -224,7 +234,11 @@ func NewMethod(
 		return nil, err
 	}
 
-	err = method.setRequestHeaderFields(funcSpec, packageHelper)
+	err = method.setEndpointRequestHeaderFields(funcSpec, packageHelper)
+	if err != nil {
+		return nil, err
+	}
+	err = method.setClientRequestHeaderFields(funcSpec, packageHelper)
 	if err != nil {
 		return nil, err
 	}
@@ -528,7 +542,7 @@ func findStructs(
 	return seenStructs, nil
 }
 
-func (ms *MethodSpec) setRequestHeaderFields(
+func (ms *MethodSpec) setEndpointRequestHeaderFields(
 	funcSpec *compile.FunctionSpec, packageHelper *PackageHelper,
 ) error {
 	fields := compile.FieldGroup(funcSpec.ArgsSpec)
@@ -645,6 +659,32 @@ func (ms *MethodSpec) setRequestHeaderFields(
 	if seenHeaders {
 		ms.ReqHeaderGoStatements = statements.GetLines()
 	}
+	return nil
+}
+
+func (ms *MethodSpec) setClientRequestHeaderFields(
+	funcSpec *compile.FunctionSpec, packageHelper *PackageHelper,
+) error {
+	fields := compile.FieldGroup(funcSpec.ArgsSpec)
+	// Scan for all annotations
+	visitor := func(
+		goPrefix string, thriftPrefix string, field *compile.FieldSpec,
+	) bool {
+		if param, ok := field.Annotations[antHTTPRef]; ok {
+			if param[0:8] == "headers." {
+				headerName := param[8:]
+				bodyIdentifier := goPrefix + "." + pascalCase(field.Name)
+				clientHeaderInfo := ClientHeaderInfo{
+					HeaderName: headerName,
+					HeaderValue: bodyIdentifier,
+					IsRequired: field.Required,
+				}
+				ms.ReqClientHeaderGoStatements = append(ms.ReqClientHeaderGoStatements, clientHeaderInfo)
+			}
+		}
+		return false
+	}
+	walkFieldGroups(fields, visitor)
 	return nil
 }
 

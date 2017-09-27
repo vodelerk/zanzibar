@@ -944,9 +944,12 @@ func (c *{{$clientName}}) {{$methodName}}(
 	{{end -}}
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "{{$methodName}}", c.httpClient)
 
-	{{if .ReqHeaderGoStatements }}
+	{{if .ReqClientHeaderGoStatements -}}
 	// TODO(jakev): populate request headers from thrift body
-	{{- end}}
+	{{range $index, $line := .ReqClientHeaderGoStatements -}}
+	headers["{{$line.HeaderName}}"] = r{{$line.HeaderValue}}
+	{{end -}}
+	{{end -}}
 
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL
@@ -1104,7 +1107,7 @@ func http_clientTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "http_client.tmpl", size: 6683, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "http_client.tmpl", size: 6818, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

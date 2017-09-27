@@ -310,6 +310,9 @@ func (c *barClient) ArgWithHeaders(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "ArgWithHeaders", c.httpClient)
 
+	// TODO(jakev): populate request headers from thrift body
+	headers["name"] = r.Name
+	headers["x-uuid"] = r.UserUUID
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithHeaders"
 
@@ -454,6 +457,9 @@ func (c *barClient) ArgWithNestedQueryParams(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "ArgWithNestedQueryParams", c.httpClient)
 
+	// TODO(jakev): populate request headers from thrift body
+	headers["query-params-name"] = r.Request.Name
+	headers["query-params-uuid"] = r.Request.UserUUID
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithNestedQueryParams"
 
@@ -463,12 +469,6 @@ func (c *barClient) ArgWithNestedQueryParams(
 		)
 	}
 	queryValues := &url.Values{}
-	requestNameQuery := r.Request.Name
-	queryValues.Set("request.name", requestNameQuery)
-	if r.Request.UserUUID != nil {
-		requestUserUUIDQuery := *r.Request.UserUUID
-		queryValues.Set("request.userUUID", requestUserUUIDQuery)
-	}
 	if r.Request.AuthUUID != nil {
 		requestAuthUUIDQuery := *r.Request.AuthUUID
 		queryValues.Set("request.authUUID", requestAuthUUIDQuery)

@@ -94,9 +94,12 @@ func (c *{{$clientName}}) {{$methodName}}(
 	{{end -}}
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "{{$methodName}}", c.httpClient)
 
-	{{if .ReqHeaderGoStatements }}
+	{{if .ReqClientHeaderGoStatements -}}
 	// TODO(jakev): populate request headers from thrift body
-	{{- end}}
+	{{range $index, $line := .ReqClientHeaderGoStatements -}}
+	headers["{{$line.HeaderName}}"] = r{{$line.HeaderValue}}
+	{{end -}}
+	{{end -}}
 
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL

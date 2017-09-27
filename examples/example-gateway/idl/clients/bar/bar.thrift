@@ -38,8 +38,14 @@ struct BarResponseRecur {
 }
 
 struct QueryParamsStruct {
-    1: required string name
-    2: optional string userUUID
+    1: required string name (
+        zanzibar.http.ref = "headers.query-params-name"
+            go.tag = "json:\"-\""
+        )
+    2: optional string userUUID (
+        zanzibar.http.ref = "headers.query-params-uuid"
+            go.tag = "json:\"-\""
+        )
     // TODO: support header annotation
     3: optional string authUUID
     4: optional string authUUID2
@@ -119,8 +125,14 @@ service Bar {
 
     // TODO: support headers annotation
     BarResponse argWithHeaders (
-        1: required string name
-        2: optional string userUUID
+        1: required string name (
+        zanzibar.http.ref = "headers.name"
+            go.tag = "json:\"-\""
+        )
+        2: optional string userUUID (
+        zanzibar.http.ref = "headers.x-uuid"
+            go.tag = "json:\"-\""
+        )
     ) (
         zanzibar.http.method = "POST"
         zanzibar.http.reqHeaders = "x-uuid"
