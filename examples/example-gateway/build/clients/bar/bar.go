@@ -458,17 +458,15 @@ func (c *barClient) ArgWithNestedQueryParams(
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "ArgWithNestedQueryParams", c.httpClient)
 
 	// TODO(jakev): populate request headers from thrift body
-	if r.Request == nil {
-		r.Request = &clientsBarBar.QueryParamsStruct{}
+	if r.Request != nil {
+		headers["query-params-name"] = r.Request.Name
 	}
-	headers["query-params-name"] = r.Request.Name
 	if r.Request != nil {
 		headers["query-params-uuid"] = *r.Request.UserUUID
 	}
-	if r.Opt == nil {
-		r.Opt = &clientsBarBar.QueryParamsOptsStruct{}
+	if r.Opt != nil {
+		headers["query-opts-params-name"] = r.Opt.Name
 	}
-	headers["query-opts-params-name"] = r.Opt.Name
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithNestedQueryParams"
 
