@@ -465,9 +465,6 @@ func (c *barClient) ArgWithNestedQueryParams(
 	if r.Request != nil {
 		headers["query-params-uuid"] = *r.Request.UserUUID
 	}
-	if r.Request != nil {
-		headers["query-params-auth-uuid"] = *r.Request.AuthUUID
-	}
 	if r.Opt == nil {
 		r.Opt = &clientsBarBar.QueryParamsOptsStruct{}
 	}
@@ -481,6 +478,10 @@ func (c *barClient) ArgWithNestedQueryParams(
 		)
 	}
 	queryValues := &url.Values{}
+	if r.Request.AuthUUID != nil {
+		requestAuthUUIDQuery := *r.Request.AuthUUID
+		queryValues.Set("request.authUUID", requestAuthUUIDQuery)
+	}
 	if r.Request.AuthUUID2 != nil {
 		requestAuthUUID2Query := *r.Request.AuthUUID2
 		queryValues.Set("request.authUUID2", requestAuthUUID2Query)

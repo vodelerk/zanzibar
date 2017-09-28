@@ -704,10 +704,10 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 				} else {
 					if len(seenOptStructs) == 0 {
 						statements.appendf("headers[%q]= *r%s",
-								headerName, bodyIdentifier,
-							)
+							headerName, bodyIdentifier,
+						)
 					} else {
-						for seenStruct, _ := range seenOptStructs {
+						for seenStruct := range seenOptStructs {
 							if strings.HasPrefix(longFieldName, seenStruct) {
 								statements.appendf("if r%s != nil {", seenStruct)
 								statements.appendf("headers[%q]= *r%s",

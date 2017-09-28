@@ -939,7 +939,7 @@ func (v *QueryParamsOptsStruct) GetAuthUUID2() (o string) {
 type QueryParamsStruct struct {
 	Name      string  `json:"-"`
 	UserUUID  *string `json:"-"`
-	AuthUUID  *string `json:"-"`
+	AuthUUID  *string `json:"authUUID,omitempty"`
 	AuthUUID2 *string `json:"authUUID2,omitempty"`
 }
 
