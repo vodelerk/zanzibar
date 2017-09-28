@@ -2,6 +2,13 @@ namespace java com.uber.zanzibar.clients.bar
 
 include "../foo/foo.thrift"
 
+typedef string UUID
+
+enum Fruit {
+    APPLE,
+    BANANA
+}
+
 struct BarRequest {
     1: required string stringField
     2: required bool boolField
@@ -167,6 +174,154 @@ service Bar {
     ) (
         zanzibar.http.method = "GET"
         zanzibar.http.path = "/bar/argWithManyQueryParams"
+        zanzibar.http.status = "200"
+    )
+}
+
+service  Echo {
+    i8 echoI8 (
+        1: required i8 arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/i8"
+        zanzibar.http.status = "200"
+    )
+
+    i16 echoI16(
+        1: required i16 arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/i16"
+        zanzibar.http.status = "200"
+    )
+
+    i32 echoI32(
+        1: required i32 arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/i32"
+        zanzibar.http.status = "200"
+    )
+
+    i64 echoI64(
+        1: required i64 arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/i64"
+        zanzibar.http.status = "200"
+    )
+
+    double echoDouble(
+        1: required double arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/double"
+        zanzibar.http.status = "200"
+    )
+
+    bool echoBool (
+        1: required bool arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/bool"
+        zanzibar.http.status = "200"
+    )
+
+    binary echoBinary (
+        1: required binary arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/binary"
+        zanzibar.http.status = "200"
+    )
+
+    string echoString(
+        1: required string arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/string"
+        zanzibar.http.status = "200"
+    )
+
+    Fruit echoEnum (
+        1: required Fruit arg = Fruit.APPLE
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/enum"
+        zanzibar.http.status = "200"
+    )
+
+    UUID echoTypedef(
+        1: required UUID arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/typedef"
+        zanzibar.http.status = "200"
+    )
+
+    set<string> echoStringSet(
+        1: required set<string> arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/string-set"
+        zanzibar.http.status = "200"
+    )
+
+    // value is unhashable
+    set<BarResponse> echoStructSet(
+        1: required set<BarResponse> arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/struct-set"
+        zanzibar.http.status = "200"
+    )
+
+    list<string> echoStringList (
+        1: required list<string> arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/string-list"
+        zanzibar.http.status = "200"
+    )
+
+    list<BarResponse> echoStructList (
+        1: required list<BarResponse> arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/struct-list"
+        zanzibar.http.status = "200"
+    )
+
+    map<string, BarResponse> echoStringMap (
+        1: required map<string, BarResponse> arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/string-map"
+        zanzibar.http.status = "200"
+    )
+
+    // key is unhashable
+    map<BarResponse, string> echoStructMap (
+        1: required map<BarResponse, string> arg
+    ) (
+        zanzibar.http.method = "POST"
+        zanzibar.http.reqHeaders = "x-uuid"
+        zanzibar.http.path = "/echo/struct-map"
         zanzibar.http.status = "200"
     )
 }
