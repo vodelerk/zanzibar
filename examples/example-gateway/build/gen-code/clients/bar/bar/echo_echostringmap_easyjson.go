@@ -61,7 +61,7 @@ func easyjsonD9ff8b44DecodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCo
 						if v1 == nil {
 							v1 = new(BarResponse)
 						}
-						easyjsonD9ff8b44DecodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBar(in, &*v1)
+						(*v1).UnmarshalEasyJSON(in)
 					}
 					(out.Success)[key] = v1
 					in.WantComma()
@@ -102,7 +102,7 @@ func easyjsonD9ff8b44EncodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCo
 			if v2Value == nil {
 				out.RawString("null")
 			} else {
-				easyjsonD9ff8b44EncodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBar(out, *v2Value)
+				(*v2Value).MarshalEasyJSON(out)
 			}
 		}
 		out.RawByte('}')
@@ -132,172 +132,6 @@ func (v *Echo_EchoStringMap_Result) UnmarshalJSON(data []byte) error {
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Echo_EchoStringMap_Result) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjsonD9ff8b44DecodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBarEchoEchoStringMap(l, v)
-}
-func easyjsonD9ff8b44DecodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBar(in *jlexer.Lexer, out *BarResponse) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	var StringFieldSet bool
-	var IntWithRangeSet bool
-	var IntWithoutRangeSet bool
-	var MapIntWithRangeSet bool
-	var MapIntWithoutRangeSet bool
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "stringField":
-			out.StringField = string(in.String())
-			StringFieldSet = true
-		case "intWithRange":
-			out.IntWithRange = int32(in.Int32())
-			IntWithRangeSet = true
-		case "intWithoutRange":
-			out.IntWithoutRange = int32(in.Int32())
-			IntWithoutRangeSet = true
-		case "mapIntWithRange":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.MapIntWithRange = make(map[string]int32)
-				} else {
-					out.MapIntWithRange = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v3 int32
-					v3 = int32(in.Int32())
-					(out.MapIntWithRange)[key] = v3
-					in.WantComma()
-				}
-				in.Delim('}')
-			}
-			MapIntWithRangeSet = true
-		case "mapIntWithoutRange":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.MapIntWithoutRange = make(map[string]int32)
-				} else {
-					out.MapIntWithoutRange = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v4 int32
-					v4 = int32(in.Int32())
-					(out.MapIntWithoutRange)[key] = v4
-					in.WantComma()
-				}
-				in.Delim('}')
-			}
-			MapIntWithoutRangeSet = true
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-	if !StringFieldSet {
-		in.AddError(fmt.Errorf("key 'stringField' is required"))
-	}
-	if !IntWithRangeSet {
-		in.AddError(fmt.Errorf("key 'intWithRange' is required"))
-	}
-	if !IntWithoutRangeSet {
-		in.AddError(fmt.Errorf("key 'intWithoutRange' is required"))
-	}
-	if !MapIntWithRangeSet {
-		in.AddError(fmt.Errorf("key 'mapIntWithRange' is required"))
-	}
-	if !MapIntWithoutRangeSet {
-		in.AddError(fmt.Errorf("key 'mapIntWithoutRange' is required"))
-	}
-}
-func easyjsonD9ff8b44EncodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBar(out *jwriter.Writer, in BarResponse) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if !first {
-		out.RawByte(',')
-	}
-	first = false
-	out.RawString("\"stringField\":")
-	out.String(string(in.StringField))
-	if !first {
-		out.RawByte(',')
-	}
-	first = false
-	out.RawString("\"intWithRange\":")
-	out.Int32(int32(in.IntWithRange))
-	if !first {
-		out.RawByte(',')
-	}
-	first = false
-	out.RawString("\"intWithoutRange\":")
-	out.Int32(int32(in.IntWithoutRange))
-	if !first {
-		out.RawByte(',')
-	}
-	first = false
-	out.RawString("\"mapIntWithRange\":")
-	if in.MapIntWithRange == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-		out.RawString(`null`)
-	} else {
-		out.RawByte('{')
-		v5First := true
-		for v5Name, v5Value := range in.MapIntWithRange {
-			if !v5First {
-				out.RawByte(',')
-			}
-			v5First = false
-			out.String(string(v5Name))
-			out.RawByte(':')
-			out.Int32(int32(v5Value))
-		}
-		out.RawByte('}')
-	}
-	if !first {
-		out.RawByte(',')
-	}
-	first = false
-	out.RawString("\"mapIntWithoutRange\":")
-	if in.MapIntWithoutRange == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-		out.RawString(`null`)
-	} else {
-		out.RawByte('{')
-		v6First := true
-		for v6Name, v6Value := range in.MapIntWithoutRange {
-			if !v6First {
-				out.RawByte(',')
-			}
-			v6First = false
-			out.String(string(v6Name))
-			out.RawByte(':')
-			out.Int32(int32(v6Value))
-		}
-		out.RawByte('}')
-	}
-	out.RawByte('}')
 }
 func easyjsonD9ff8b44DecodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBarEchoEchoStringMap1(in *jlexer.Lexer, out *Echo_EchoStringMap_Args) {
 	isTopLevel := in.IsStart()
@@ -332,17 +166,17 @@ func easyjsonD9ff8b44DecodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCo
 				for !in.IsDelim('}') {
 					key := string(in.String())
 					in.WantColon()
-					var v7 *BarResponse
+					var v3 *BarResponse
 					if in.IsNull() {
 						in.Skip()
-						v7 = nil
+						v3 = nil
 					} else {
-						if v7 == nil {
-							v7 = new(BarResponse)
+						if v3 == nil {
+							v3 = new(BarResponse)
 						}
-						easyjsonD9ff8b44DecodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBar(in, &*v7)
+						(*v3).UnmarshalEasyJSON(in)
 					}
-					(out.Arg)[key] = v7
+					(out.Arg)[key] = v3
 					in.WantComma()
 				}
 				in.Delim('}')
@@ -374,18 +208,18 @@ func easyjsonD9ff8b44EncodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCo
 		out.RawString(`null`)
 	} else {
 		out.RawByte('{')
-		v8First := true
-		for v8Name, v8Value := range in.Arg {
-			if !v8First {
+		v4First := true
+		for v4Name, v4Value := range in.Arg {
+			if !v4First {
 				out.RawByte(',')
 			}
-			v8First = false
-			out.String(string(v8Name))
+			v4First = false
+			out.String(string(v4Name))
 			out.RawByte(':')
-			if v8Value == nil {
+			if v4Value == nil {
 				out.RawString("null")
 			} else {
-				easyjsonD9ff8b44EncodeGithubComUberZanzibarExamplesExampleGatewayBuildGenCodeClientsBarBar(out, *v8Value)
+				(*v4Value).MarshalEasyJSON(out)
 			}
 		}
 		out.RawByte('}')

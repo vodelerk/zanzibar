@@ -688,23 +688,35 @@ func (ms *MethodSpec) setClientRequestHeaderFields(
 			if param[0:8] == "headers." {
 				headerName := param[8:]
 				bodyIdentifier := goPrefix + "." + pascalCase(field.Name)
-				for seenStruct, typeName := range seenOptStructs {
-					if strings.HasPrefix(longFieldName, seenStruct) {
-						statements.appendf("if r%s == nil {", seenStruct)
-						statements.appendf("\tr%s = &%s{}",
-							seenStruct, typeName,
-						)
-						statements.append("}")
-					}
-				}
 				if field.Required {
+					for seenStruct, typeName := range seenOptStructs {
+						if strings.HasPrefix(longFieldName, seenStruct) {
+							statements.appendf("if r%s == nil {", seenStruct)
+							statements.appendf("\tr%s = &%s{}",
+								seenStruct, typeName,
+							)
+							statements.append("}")
+						}
+					}
 					statements.appendf("headers[%q]= r%s",
 						headerName, bodyIdentifier,
 					)
 				} else {
-					statements.appendf("headers[%q]= *r%s",
-						headerName, bodyIdentifier,
-					)
+					if len(seenOptStructs) == 0 {
+						statements.appendf("headers[%q]= *r%s",
+								headerName, bodyIdentifier,
+							)
+					} else {
+						for seenStruct, _ := range seenOptStructs {
+							if strings.HasPrefix(longFieldName, seenStruct) {
+								statements.appendf("if r%s != nil {", seenStruct)
+								statements.appendf("headers[%q]= *r%s",
+									headerName, bodyIdentifier,
+								)
+								statements.append("}")
+							}
+						}
+					}
 				}
 			}
 		}
