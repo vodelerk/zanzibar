@@ -39,6 +39,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": null,
 					"ResHeaders": null,
@@ -218,6 +219,7 @@
 						"fullURL += \"?\" + queryValues.Encode()"
 					],
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -392,6 +394,7 @@
 						"}"
 					],
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -454,6 +457,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -519,6 +523,7 @@
 						"fullURL += \"?\" + queryValues.Encode()"
 					],
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -568,6 +573,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -642,6 +648,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -716,6 +723,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -797,6 +805,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {},
 					"ReqHeaders": null,
 					"ResHeaders": null,
@@ -866,6 +875,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": {
 						"some-header-field": {
 							"FieldIdentifier": ".StringField",
@@ -956,6 +966,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1009,6 +1020,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1062,6 +1074,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1115,6 +1128,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1168,6 +1182,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1221,6 +1236,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1274,6 +1290,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1327,6 +1344,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1380,6 +1398,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1433,6 +1452,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1486,6 +1506,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1539,6 +1560,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1592,6 +1614,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1645,6 +1668,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1698,6 +1722,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"
@@ -1751,6 +1776,7 @@
 					"ParseQueryParamGoStatements": null,
 					"WriteQueryParamGoStatements": null,
 					"ReqHeaderGoStatements": null,
+					"ReqClientHeaderGoStatements": null,
 					"ResHeaderFields": null,
 					"ReqHeaders": [
 						"x-uuid"

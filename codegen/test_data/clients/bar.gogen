@@ -310,6 +310,9 @@ func (c *barClient) ArgWithHeaders(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "ArgWithHeaders", c.httpClient)
 
+    // TODO(jakev): populate request headers from thrift body
+	headers["name"] = r.Name
+	headers["x-uuid"] = *r.UserUUID
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithHeaders"
 
@@ -454,6 +457,16 @@ func (c *barClient) ArgWithNestedQueryParams(
 	var defaultRes *clientsBarBar.BarResponse
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "ArgWithNestedQueryParams", c.httpClient)
 
+ 	// TODO(jakev): populate request headers from thrift body
+	if r.Request != nil {
+		headers["query-params-name"] = r.Request.Name
+	}
+	if r.Request != nil {
+		headers["query-params-uuid"] = *r.Request.UserUUID
+	}
+	if r.Opt != nil {
+		headers["query-opts-params-name"] = r.Opt.Name
+ 	}
 	// Generate full URL.
 	fullURL := c.httpClient.BaseURL + "/bar" + "/argWithNestedQueryParams"
 

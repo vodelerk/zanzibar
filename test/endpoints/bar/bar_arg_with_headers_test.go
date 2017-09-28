@@ -22,6 +22,7 @@ package bar_test
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"testing"
@@ -51,8 +52,9 @@ func TestBarWithHeadersTransformCall(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			bytes, err := ioutil.ReadAll(r.Body)
 			assert.NoError(t, err)
+			fmt.Println("===== bytes: ", string(bytes))
 			assert.Equal(t,
-				[]byte(`{"name":"foo","userUUID":"a-uuid"}`),
+				[]byte(``),
 				bytes,
 			)
 
