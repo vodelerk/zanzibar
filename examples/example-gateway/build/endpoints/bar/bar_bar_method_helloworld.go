@@ -97,7 +97,7 @@ func (handler *BarHelloWorldHandler) HandleRequest(
 		}
 	}
 
-	res.WriteJSON(200, cliRespHeaders, &response)
+	res.WriteJSON(200, cliRespHeaders, response)
 }
 
 // HelloWorldEndpoint calls thrift client Bar.Hello
@@ -111,7 +111,7 @@ type HelloWorldEndpoint struct {
 func (w HelloWorldEndpoint) Handle(
 	ctx context.Context,
 	reqHeaders zanzibar.Header,
-) (*string, zanzibar.Header, error) {
+) (string, zanzibar.Header, error) {
 
 	clientHeaders := map[string]string{}
 
@@ -128,7 +128,7 @@ func (w HelloWorldEndpoint) Handle(
 			)
 			// TODO(sindelar): Consider returning partial headers
 
-			return "", nil, serverErr
+			return nil, nil, serverErr
 
 		default:
 			w.Logger.Warn("Could not make client request",
@@ -136,7 +136,7 @@ func (w HelloWorldEndpoint) Handle(
 			)
 			// TODO(sindelar): Consider returning partial headers
 
-			return "", nil, err
+			return nil, nil, err
 
 		}
 	}
@@ -147,7 +147,7 @@ func (w HelloWorldEndpoint) Handle(
 	resHeaders := zanzibar.ServerHTTPHeader{}
 
 	response := convertHelloWorldClientResponse(clientRespBody)
-	return &response, resHeaders, nil
+	return response, resHeaders, nil
 }
 
 func convertHelloWorldBarException(
