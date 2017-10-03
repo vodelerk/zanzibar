@@ -84,13 +84,13 @@ type MethodSpec struct {
 	// ResHeaders needed, generated from "zanzibar.http.resHeaders"
 	ResHeaders []string
 
-	RequestType      string
-	ResponseType     string
-	ShortResponseType     string
-	OKStatusCode     StatusCode
-	Exceptions       []ExceptionSpec
-	ExceptionsIndex  map[string]ExceptionSpec
-	ValidStatusCodes []int
+	RequestType       string
+	ResponseType      string
+	ShortResponseType string
+	OKStatusCode      StatusCode
+	Exceptions        []ExceptionSpec
+	ExceptionsIndex   map[string]ExceptionSpec
+	ValidStatusCodes  []int
 	// Additional struct generated from the bundle of request args.
 	RequestBoxed bool
 	// Thrift service name the method belongs to.
@@ -870,7 +870,7 @@ func (ms *MethodSpec) setTypeConverters(
 		Helper:      h,
 	}
 
-	respConverter.append("func convert", pascalCase(ms.Name), "ClientResponse(in ", downstreamMethod.ResponseType, ") ", ms.ResponseType,"{")
+	respConverter.append("func convert", pascalCase(ms.Name), "ClientResponse(in ", downstreamMethod.ResponseType, ") ", ms.ResponseType, "{")
 	var respFields, downstreamRespFields []*compile.FieldSpec
 	switch respType.(type) {
 	case
