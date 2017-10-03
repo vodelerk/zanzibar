@@ -43,7 +43,7 @@ type Client interface {
 		ctx context.Context,
 		reqHeaders map[string]string,
 		args *clientsCorgeCorge.Corge_EchoString_Args,
-	) (string, map[string]string, error)
+	) (*string, map[string]string, error)
 }
 
 // NewClient returns a new TChannel client for service corge.
@@ -101,9 +101,9 @@ func (c *corgeClient) EchoString(
 	ctx context.Context,
 	reqHeaders map[string]string,
 	args *clientsCorgeCorge.Corge_EchoString_Args,
-) (string, map[string]string, error) {
+) (*string, map[string]string, error) {
 	var result clientsCorgeCorge.Corge_EchoString_Result
-	var resp string
+	var resp *string
 
 	success, respHeaders, err := c.client.Call(
 		ctx, "Corge", "echoString", reqHeaders, args, &result,

@@ -111,7 +111,7 @@ type HelloWorldEndpoint struct {
 func (w HelloWorldEndpoint) Handle(
 	ctx context.Context,
 	reqHeaders zanzibar.Header,
-) (string, zanzibar.Header, error) {
+) (*string, zanzibar.Header, error) {
 
 	clientHeaders := map[string]string{}
 
@@ -158,8 +158,8 @@ func convertHelloWorldBarException(
 	return serverError
 }
 
-func convertHelloWorldClientResponse(in string) string {
-	out := string(in)
+func convertHelloWorldClientResponse(in *string) *string {
+	out := &string{in}
 
 	return out
 }

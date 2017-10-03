@@ -303,7 +303,7 @@ func (ms *MethodSpec) setResponseType(curThriftFile string, respSpec *compile.Re
 	}
 	typeName, err := packageHelper.TypeFullName(respSpec.ReturnType)
 	ms.ShortResponseType = typeName
-	if IsStructType(respSpec.ReturnType) {
+	if IsStructType(respSpec.ReturnType) || IsStringType(respSpec.ReturnType) {
 		typeName = "*" + typeName
 	}
 	if err != nil {
@@ -883,7 +883,7 @@ func (ms *MethodSpec) setTypeConverters(
 		*compile.DoubleSpec,
 		*compile.StringSpec:
 
-		respConverter.append("out", " := ", respType.ThriftName(), "(", "in", ")\n")
+		respConverter.append("out", " := ", "&", ms.ShortResponseType, "{in}\t\n")
 	default:
 		// default as struct
 		respFields = respType.(*compile.StructSpec).Fields

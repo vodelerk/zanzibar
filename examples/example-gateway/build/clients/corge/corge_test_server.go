@@ -37,7 +37,7 @@ type CorgeechoStringFunc func(
 	ctx context.Context,
 	reqHeaders map[string]string,
 	args *clientsCorgeCorge.Corge_EchoString_Args,
-) (string, map[string]string, error)
+) (*string, map[string]string, error)
 
 // NewCorgeEchoStringHandler wraps a handler function so it can be registered with a thrift server.
 func NewCorgeEchoStringHandler(f CorgeechoStringFunc) zanzibar.TChannelHandler {

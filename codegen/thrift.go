@@ -119,6 +119,13 @@ func IsStructType(spec compile.TypeSpec) bool {
 	return isStruct
 }
 
+// IsStringType returns true if the given thrift type is string, false otherwise.
+func IsStringType(spec compile.TypeSpec) bool {
+	spec = compile.RootTypeSpec(spec)
+	_, isString := spec.(*compile.StringSpec)
+	return isString
+}
+
 // isHashable returns true if the given type is considered hashable by thriftrw.
 //
 // Only primitive types, enums, and typedefs of other hashable types are considered hashable.
