@@ -442,15 +442,10 @@ func convert{{$methodName}}{{title $cException.Name}}(
 {{end}}
 
 {{if and (ne .ResponseType "") (ne $clientResType "") -}}
-func convert{{title .Name}}ClientResponse(in {{$clientResType}}) {{.ResponseType}} {
-	out := &{{unref .ResponseType}}{}
+{{ range $key, $line := $method.ConvertResponseGoStatements -}}
+{{$line}}
+{{ end }}
 
-	{{ range $key, $line := $method.ConvertResponseGoStatements -}}
-	{{$line}}
-	{{ end }}
-
-	return out
-}
 {{end -}}
 
 {{end -}}
@@ -467,7 +462,7 @@ func endpointTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "endpoint.tmpl", size: 9641, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "endpoint.tmpl", size: 9503, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
