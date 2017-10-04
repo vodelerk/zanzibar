@@ -100,7 +100,7 @@ func (handler *BarHelloWorldHandler) HandleRequest(
 	if response == nil {
 		res.WriteJSONBytes(200, cliRespHeaders, nil)
 	} else {
-		res.WriteJSONBytes(200, cliRespHeaders, []byte{*response})
+		res.WriteJSONBytes(200, cliRespHeaders, []byte(*response))
 	}
 }
 
