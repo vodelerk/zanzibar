@@ -97,7 +97,7 @@ func (handler *BarHelloWorldHandler) HandleRequest(
 		}
 	}
 
-	res.WriteJSON(200, cliRespHeaders, response)
+	res.WriteJSONBytes(200, cliRespHeaders, response)
 }
 
 // HelloWorldEndpoint calls thrift client Bar.Hello
@@ -159,7 +159,7 @@ func convertHelloWorldBarException(
 }
 
 func convertHelloWorldClientResponse(in *string) *string {
-	out := &string{in}
+	out := in
 
 	return out
 }

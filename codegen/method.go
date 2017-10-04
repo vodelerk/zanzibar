@@ -883,7 +883,7 @@ func (ms *MethodSpec) setTypeConverters(
 		*compile.DoubleSpec,
 		*compile.StringSpec:
 
-		respConverter.append("out", " := ", "&", ms.ShortResponseType, "{in}\t\n")
+		respConverter.append("out", " := in\t\n")
 	default:
 		// default as struct
 		respFields = respType.(*compile.StructSpec).Fields
