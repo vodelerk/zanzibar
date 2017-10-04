@@ -84,7 +84,7 @@ type Client interface {
 		ctx context.Context,
 		reqHeaders map[string]string,
 		args *clientsBazBaz.SecondService_EchoString_Args,
-	) (*string, map[string]string, error)
+	) (string, map[string]string, error)
 	EchoStringList(
 		ctx context.Context,
 		reqHeaders map[string]string,
@@ -122,7 +122,7 @@ type Client interface {
 		ctx context.Context,
 		reqHeaders map[string]string,
 		args *clientsBazBaz.SecondService_EchoTypedef_Args,
-	) (*clientsBazBase.UUID, map[string]string, error)
+	) (clientsBazBase.UUID, map[string]string, error)
 	Call(
 		ctx context.Context,
 		reqHeaders map[string]string,
@@ -433,9 +433,9 @@ func (c *bazClient) EchoString(
 	ctx context.Context,
 	reqHeaders map[string]string,
 	args *clientsBazBaz.SecondService_EchoString_Args,
-) (*string, map[string]string, error) {
+) (string, map[string]string, error) {
 	var result clientsBazBaz.SecondService_EchoString_Result
-	var resp *string
+	var resp string
 
 	success, respHeaders, err := c.client.Call(
 		ctx, "SecondService", "echoString", reqHeaders, args, &result,
@@ -628,9 +628,9 @@ func (c *bazClient) EchoTypedef(
 	ctx context.Context,
 	reqHeaders map[string]string,
 	args *clientsBazBaz.SecondService_EchoTypedef_Args,
-) (*clientsBazBase.UUID, map[string]string, error) {
+) (clientsBazBase.UUID, map[string]string, error) {
 	var result clientsBazBaz.SecondService_EchoTypedef_Result
-	var resp *clientsBazBase.UUID
+	var resp clientsBazBase.UUID
 
 	success, respHeaders, err := c.client.Call(
 		ctx, "SecondService", "echoTypedef", reqHeaders, args, &result,

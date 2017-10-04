@@ -303,7 +303,7 @@ func (ms *MethodSpec) setResponseType(curThriftFile string, respSpec *compile.Re
 	}
 	typeName, err := packageHelper.TypeFullName(respSpec.ReturnType)
 	ms.ShortResponseType = typeName
-	if IsStructType(respSpec.ReturnType) || IsStringType(respSpec.ReturnType) {
+	if IsStructType(respSpec.ReturnType) {
 		typeName = "*" + typeName
 	}
 	if err != nil {

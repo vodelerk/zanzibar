@@ -97,11 +97,7 @@ func (handler *BarHelloWorldHandler) HandleRequest(
 		}
 	}
 
-	if response == nil {
-		res.WriteJSONBytes(200, cliRespHeaders, nil)
-	} else {
-		res.WriteJSONBytes(200, cliRespHeaders, []byte(*response))
-	}
+	res.WriteJSONBytes(200, cliRespHeaders, []byte(response))
 }
 
 // HelloWorldEndpoint calls thrift client Bar.Hello
@@ -115,7 +111,7 @@ type HelloWorldEndpoint struct {
 func (w HelloWorldEndpoint) Handle(
 	ctx context.Context,
 	reqHeaders zanzibar.Header,
-) (*string, zanzibar.Header, error) {
+) (string, zanzibar.Header, error) {
 
 	clientHeaders := map[string]string{}
 
@@ -162,7 +158,7 @@ func convertHelloWorldBarException(
 	return serverError
 }
 
-func convertHelloWorldClientResponse(in *string) *string {
+func convertHelloWorldClientResponse(in string) string {
 	out := in
 
 	return out

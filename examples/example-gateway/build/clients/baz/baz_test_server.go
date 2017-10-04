@@ -351,7 +351,7 @@ type SecondServiceechoStringFunc func(
 	ctx context.Context,
 	reqHeaders map[string]string,
 	args *clientsBazBaz.SecondService_EchoString_Args,
-) (*string, map[string]string, error)
+) (string, map[string]string, error)
 
 // NewSecondServiceEchoStringHandler wraps a handler function so it can be registered with a thrift server.
 func NewSecondServiceEchoStringHandler(f SecondServiceechoStringFunc) zanzibar.TChannelHandler {
@@ -627,7 +627,7 @@ type SecondServiceechoTypedefFunc func(
 	ctx context.Context,
 	reqHeaders map[string]string,
 	args *clientsBazBaz.SecondService_EchoTypedef_Args,
-) (*clientsBazBase.UUID, map[string]string, error)
+) (clientsBazBase.UUID, map[string]string, error)
 
 // NewSecondServiceEchoTypedefHandler wraps a handler function so it can be registered with a thrift server.
 func NewSecondServiceEchoTypedefHandler(f SecondServiceechoTypedefFunc) zanzibar.TChannelHandler {

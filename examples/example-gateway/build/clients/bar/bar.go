@@ -76,7 +76,7 @@ type Client interface {
 	Hello(
 		ctx context.Context,
 		reqHeaders map[string]string,
-	) (*string, map[string]string, error)
+	) (string, map[string]string, error)
 	MissingArg(
 		ctx context.Context,
 		reqHeaders map[string]string,
@@ -144,7 +144,7 @@ type Client interface {
 		ctx context.Context,
 		reqHeaders map[string]string,
 		args *clientsBarBar.Echo_EchoString_Args,
-	) (*string, map[string]string, error)
+	) (string, map[string]string, error)
 	EchoStringList(
 		ctx context.Context,
 		reqHeaders map[string]string,
@@ -182,7 +182,7 @@ type Client interface {
 		ctx context.Context,
 		reqHeaders map[string]string,
 		args *clientsBarBar.Echo_EchoTypedef_Args,
-	) (*clientsBarBar.UUID, map[string]string, error)
+	) (clientsBarBar.UUID, map[string]string, error)
 }
 
 // barClient is the http client.
@@ -695,8 +695,8 @@ func (c *barClient) ArgWithQueryParams(
 func (c *barClient) Hello(
 	ctx context.Context,
 	headers map[string]string,
-) (*string, map[string]string, error) {
-	var defaultRes *string
+) (string, map[string]string, error) {
+	var defaultRes string
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "Hello", c.httpClient)
 
 	// Generate full URL.
@@ -727,7 +727,7 @@ func (c *barClient) Hello(
 			return defaultRes, respHeaders, err
 		}
 
-		return &responseBody, respHeaders, nil
+		return responseBody, respHeaders, nil
 
 	case 403:
 		var exception clientsBarBar.BarException
@@ -1471,8 +1471,8 @@ func (c *barClient) EchoString(
 	ctx context.Context,
 	headers map[string]string,
 	r *clientsBarBar.Echo_EchoString_Args,
-) (*string, map[string]string, error) {
-	var defaultRes *string
+) (string, map[string]string, error) {
+	var defaultRes string
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "EchoString", c.httpClient)
 
 	// Generate full URL.
@@ -1508,7 +1508,7 @@ func (c *barClient) EchoString(
 			return defaultRes, respHeaders, err
 		}
 
-		return &responseBody, respHeaders, nil
+		return responseBody, respHeaders, nil
 	}
 
 	return defaultRes, respHeaders, &zanzibar.UnexpectedHTTPError{
@@ -1837,8 +1837,8 @@ func (c *barClient) EchoTypedef(
 	ctx context.Context,
 	headers map[string]string,
 	r *clientsBarBar.Echo_EchoTypedef_Args,
-) (*clientsBarBar.UUID, map[string]string, error) {
-	var defaultRes *clientsBarBar.UUID
+) (clientsBarBar.UUID, map[string]string, error) {
+	var defaultRes clientsBarBar.UUID
 	req := zanzibar.NewClientHTTPRequest(c.clientID, "EchoTypedef", c.httpClient)
 
 	// Generate full URL.
@@ -1874,7 +1874,7 @@ func (c *barClient) EchoTypedef(
 			return defaultRes, respHeaders, err
 		}
 
-		return &responseBody, respHeaders, nil
+		return responseBody, respHeaders, nil
 	}
 
 	return defaultRes, respHeaders, &zanzibar.UnexpectedHTTPError{

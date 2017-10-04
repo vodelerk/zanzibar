@@ -275,12 +275,8 @@ func (handler *{{$handlerName}}) HandleRequest(
 
 	{{if eq .ResponseType "" -}}
 	res.WriteJSONBytes({{.OKStatusCode.Code}}, cliRespHeaders, nil)
-	{{else if eq .ResponseType "*string" }}
-	if response == nil {
-	  res.WriteJSONBytes({{.OKStatusCode.Code}}, cliRespHeaders, nil)
-	} else {
-	  res.WriteJSONBytes({{.OKStatusCode.Code}}, cliRespHeaders, []byte{*response})
-	}
+	{{else if eq .ResponseType "string" }}
+	res.WriteJSONBytes({{.OKStatusCode.Code}}, cliRespHeaders, []byte(response))
 	{{- else -}}
 	res.WriteJSON({{.OKStatusCode.Code}}, cliRespHeaders, response)
 	{{- end }}
@@ -468,7 +464,7 @@ func endpointTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "endpoint.tmpl", size: 9727, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "endpoint.tmpl", size: 9621, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
