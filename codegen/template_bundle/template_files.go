@@ -385,6 +385,8 @@ func (w {{$workflow}}) Handle(
 				// TODO(sindelar): Consider returning partial headers
 				{{if eq $responseType ""}}
 				return nil, serverErr
+				{{else if eq $responseType "string" }}
+				return "", nil, err
 				{{else}}
 				return nil, nil, serverErr
 				{{end}}
@@ -396,6 +398,8 @@ func (w {{$workflow}}) Handle(
 				// TODO(sindelar): Consider returning partial headers
 				{{if eq $responseType ""}}
 				return nil, err
+				{{else if eq $responseType "string" }}
+				return "", nil, err
 				{{else}}
 				return nil, nil, err
 				{{end}}
@@ -464,7 +468,7 @@ func endpointTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "endpoint.tmpl", size: 9621, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
+	info := bindataFileInfo{name: "endpoint.tmpl", size: 9755, mode: os.FileMode(420), modTime: time.Unix(1, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

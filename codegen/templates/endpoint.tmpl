@@ -281,6 +281,8 @@ func (w {{$workflow}}) Handle(
 				// TODO(sindelar): Consider returning partial headers
 				{{if eq $responseType ""}}
 				return nil, serverErr
+				{{else if eq $responseType "string" }}
+				return "", nil, err
 				{{else}}
 				return nil, nil, serverErr
 				{{end}}
@@ -292,6 +294,8 @@ func (w {{$workflow}}) Handle(
 				// TODO(sindelar): Consider returning partial headers
 				{{if eq $responseType ""}}
 				return nil, err
+				{{else if eq $responseType "string" }}
+				return "", nil, err
 				{{else}}
 				return nil, nil, err
 				{{end}}

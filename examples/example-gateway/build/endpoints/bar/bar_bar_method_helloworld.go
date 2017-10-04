@@ -128,7 +128,7 @@ func (w HelloWorldEndpoint) Handle(
 			)
 			// TODO(sindelar): Consider returning partial headers
 
-			return nil, nil, serverErr
+			return "", nil, err
 
 		default:
 			w.Logger.Warn("Could not make client request",
@@ -136,7 +136,7 @@ func (w HelloWorldEndpoint) Handle(
 			)
 			// TODO(sindelar): Consider returning partial headers
 
-			return nil, nil, err
+			return "", nil, err
 
 		}
 	}
