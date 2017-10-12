@@ -22,6 +22,7 @@ package codegen
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -136,7 +137,7 @@ func (c *TypeConverter) genConverterForStruct(
 	subFromFieldsMap := make(map[string]FieldMapperEntry)
 	// Build subfield mapping
 	for k, v := range fieldMap {
-		if strings.HasPrefix(v.QualifiedName, keyPrefix) {
+		if strings.HasPrefix(k, keyPrefix) {
 			// string keyPrefix and append
 			subFromFieldsMap[k] = v
 		}
@@ -484,6 +485,8 @@ func (c *TypeConverter) genStructConverter(
 
 		v, ok := fieldMap[keyPrefix+pascalCase(toField.Name)]
 		if ok {
+			fmt.Fprintf(os.Stdout, "we have a mapper %+v \n", v)
+
 			if fromField == nil {
 				fromField = v.Field
 				fromIdentifier = "in." + v.QualifiedName
@@ -509,6 +512,8 @@ func (c *TypeConverter) genStructConverter(
 					}
 				}
 			}
+
+			fmt.Fprintf(os.Stdout, "we have a new fromIdentifier (%s) and overriddenIdentifier (%s) \n", fromIdentifier, overriddenIdentifier)
 		}
 
 		if fromField == nil {

@@ -1452,6 +1452,64 @@ func TestConverterMapStructWithSubFields(t *testing.T) {
 	`), lines)
 }
 
+func TestConverterMapStructWithSubFieldsTwo(t *testing.T) {
+	fieldMap := make(map[string]codegen.FieldMapperEntry)
+	fieldMap["Three.One"] = codegen.FieldMapperEntry{
+		QualifiedName: "Four.One",
+		Override:      true,
+	}
+	fieldMap["Four.Two"] = codegen.FieldMapperEntry{
+		QualifiedName: "Three.Two",
+		Override:      true,
+	}
+
+	lines, err := convertTypes(
+		"Foo", "Bar",
+		`struct NestedFoo {
+			1: required string one
+			2: optional string two
+		}
+
+		struct NestedBar {
+			1: required string one
+			2: optional string two
+		}
+
+		struct Foo {
+			3: optional NestedFoo three
+			4: required NestedFoo four
+		}
+
+		struct Bar {
+			3: optional NestedBar three
+			4: required NestedBar four
+		}`,
+		nil,
+		fieldMap,
+	)
+
+	assert.NoError(t, err)
+	assert.Equal(t, trim(`
+		if in.Three != nil {
+			out.Three = &structs.NestedBar{}
+			out.Three.One = string(in.Four.One)
+			out.Three.Two = (*string)(in.Three.Two)
+		} else {
+			out.Three = nil
+		}
+		if in.Four != nil {
+			out.Four = &structs.NestedBar{}
+			out.Four.One = string(in.Four.One)
+			out.Four.Two = (*string)(in.Four.Two)
+			if in.Three.Two != nil {
+				out.Four.Two = (*string)(in.Three.Two)
+			}
+		} else {
+			out.Four = nil
+		}
+	`), lines)
+}
+
 func TestConverterMapStructWithSubFieldsReqToOpt(t *testing.T) {
 	fieldMap := make(map[string]codegen.FieldMapperEntry)
 	fieldMap["Three.One"] = codegen.FieldMapperEntry{
