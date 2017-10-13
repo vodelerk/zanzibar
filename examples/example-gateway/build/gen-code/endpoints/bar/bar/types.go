@@ -287,6 +287,7 @@ type BarResponse struct {
 	IntWithoutRange    int32            `json:"intWithoutRange,required"`
 	MapIntWithRange    map[string]int32 `json:"mapIntWithRange,required"`
 	MapIntWithoutRange map[string]int32 `json:"mapIntWithoutRange,required"`
+	BinaryField        []byte           `json:"binaryField,required"`
 }
 
 type _Map_String_I32_MapItemList map[string]int32
@@ -341,7 +342,7 @@ func (_Map_String_I32_MapItemList) Close() {}
 //   }
 func (v *BarResponse) ToWire() (wire.Value, error) {
 	var (
-		fields [5]wire.Field
+		fields [6]wire.Field
 		i      int = 0
 		w      wire.Value
 		err    error
@@ -384,6 +385,15 @@ func (v *BarResponse) ToWire() (wire.Value, error) {
 		return w, err
 	}
 	fields[i] = wire.Field{ID: 5, Value: w}
+	i++
+	if v.BinaryField == nil {
+		return w, errors.New("field BinaryField of BarResponse is required")
+	}
+	w, err = wire.NewValueBinary(v.BinaryField), error(nil)
+	if err != nil {
+		return w, err
+	}
+	fields[i] = wire.Field{ID: 6, Value: w}
 	i++
 
 	return wire.NewValueStruct(wire.Struct{Fields: fields[:i]}), nil
@@ -442,6 +452,7 @@ func (v *BarResponse) FromWire(w wire.Value) error {
 	intWithoutRangeIsSet := false
 	mapIntWithRangeIsSet := false
 	mapIntWithoutRangeIsSet := false
+	binaryFieldIsSet := false
 
 	for _, field := range w.GetStruct().Fields {
 		switch field.ID {
@@ -485,6 +496,14 @@ func (v *BarResponse) FromWire(w wire.Value) error {
 				}
 				mapIntWithoutRangeIsSet = true
 			}
+		case 6:
+			if field.Value.Type() == wire.TBinary {
+				v.BinaryField, err = field.Value.GetBinary(), error(nil)
+				if err != nil {
+					return err
+				}
+				binaryFieldIsSet = true
+			}
 		}
 	}
 
@@ -508,6 +527,10 @@ func (v *BarResponse) FromWire(w wire.Value) error {
 		return errors.New("field MapIntWithoutRange of BarResponse is required")
 	}
 
+	if !binaryFieldIsSet {
+		return errors.New("field BinaryField of BarResponse is required")
+	}
+
 	return nil
 }
 
@@ -518,7 +541,7 @@ func (v *BarResponse) String() string {
 		return "<nil>"
 	}
 
-	var fields [5]string
+	var fields [6]string
 	i := 0
 	fields[i] = fmt.Sprintf("StringField: %v", v.StringField)
 	i++
@@ -529,6 +552,8 @@ func (v *BarResponse) String() string {
 	fields[i] = fmt.Sprintf("MapIntWithRange: %v", v.MapIntWithRange)
 	i++
 	fields[i] = fmt.Sprintf("MapIntWithoutRange: %v", v.MapIntWithoutRange)
+	i++
+	fields[i] = fmt.Sprintf("BinaryField: %v", v.BinaryField)
 	i++
 
 	return fmt.Sprintf("BarResponse{%v}", strings.Join(fields[:i], ", "))
@@ -569,6 +594,9 @@ func (v *BarResponse) Equals(rhs *BarResponse) bool {
 		return false
 	}
 	if !_Map_String_I32_Equals(v.MapIntWithoutRange, rhs.MapIntWithoutRange) {
+		return false
+	}
+	if !bytes.Equal(v.BinaryField, rhs.BinaryField) {
 		return false
 	}
 
